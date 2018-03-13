@@ -38,10 +38,19 @@ Post plain text, line separated sentences to it:
 
     $ curl -H "Content-Type:text/plain" -d "Mr. O'Neill thinks that the boys' stories about Chile's capital aren't amusing" http://localhost:7777/
 
-Returns a list of lists of sentences and words, in what is essentially the [CoNLL-U](http://universaldependencies.org/format.html) format, just in JSON
+If calling API with Python requests:
+    
+    import requests
+    header = {'Content-Type': 'text/plain'}
+    data = "Mr. O'Neill thinks that the boys' stories about Chile's capital aren't amusing"
+    r = requests.post("http://localhost:7777/", data=data, headers=headers)
+    r.json()
 
-`[
- [
+
+Returns a list of lists of sentences and words, in what is essentially the [CoNLL-U](http://universaldependencies.org/format.html) format, just in JSON:
+
+    [
+    [
     {
       "index": 1, 
       "token": "Mr.", 
@@ -138,17 +147,17 @@ Returns a list of lists of sentences and words, in what is essentially the [CoNL
       "parent": 10, 
       "relation": "conj"
     }
-  ]
-]
-`
+    ]
+    ]
+
 The default model is the first one in the `PARSEY_MODELS` list (in this case Swedish). To use another, use the `language` query param: (must also match the model name exactly)
 
     $ curl -H "Content-Type:text/plain" --data-binary "Jag heter JesDoIt" http://localhost:7777/?language=Swedish
 
 Returns:
 
-`[
-  [
+    [
+    [
     {
       "index": 1, 
       "token": "Jag", 
@@ -173,6 +182,18 @@ Returns:
       "parent": 2, 
       "relation": "dobj"
     }
-  ]
-]
-`
+    ]
+    ]
+
+## Tips
+To call the API out of localhost, don't forget enabling the port to target host.
+If you are using Google Cloud, here is an example of how to do it in Cloud Shell:
+    
+    $ gcloud compute firewall-rules create parseyserver --allow tcp:7777
+Take a note of your _external ip address_. Now you can access the API out of instance!
+
+#### This [link](https://github.com/tensorflow/models/blob/master/research/syntaxnet/g3doc/CLOUD.md) could help as an instruction of creating Google Cloud instance.
+
+
+
+
