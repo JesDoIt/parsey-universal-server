@@ -40,9 +40,9 @@ Post plain text, line separated sentences to it:
 
 Returns a list of lists of sentences and words, in what is essentially the [CoNLL-U](http://universaldependencies.org/format.html) format, just in JSON
 
+[
  [
-  [
-    {
+  {
       "index": 1, 
       "token": "Mr.", 
       "label": "NOUN", 
