@@ -186,7 +186,7 @@ Returns:
     ]
 
 ## Tips
-To call the API out of localhost, don't forget enabling the port to target host.
+To call the API out of localhost, don't forget enabling the port to remote.
 If you are using Google Cloud, here is an example of how to do it in Cloud Shell:
     
     $ gcloud compute firewall-rules create parseyserver --allow tcp:7777
