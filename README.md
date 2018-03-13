@@ -36,10 +36,10 @@ Navigate to http://localhost:7777/demo to view a simple demo.
 
 Post plain text, line separated sentences to it:
 
-    $ curl -H "Content-Type:text/plain" -d "Mr. O'Neill thinks that the boys' stories about Chile's capital aren't amusing" http://localhost:7777/?Language=English
+    $ curl -H "Content-Type:text/plain" -d "Mr. O'Neill thinks that the boys' stories about Chile's capital aren't amusing" http://localhost:7777/
 
 Returns a list of lists of sentences and words, in what is essentially the [CoNLL-U](http://universaldependencies.org/format.html) format, just in JSON
-
+`
 [
  [
   {
@@ -140,13 +140,13 @@ Returns a list of lists of sentences and words, in what is essentially the [CoNL
     }
   ]
 ]
-
-The default model is the first one in the `PARSEY_MODELS` list (in this case Latin). To use another, use the `language` query param: (must also match the model name exactly)
+`
+The default model is the first one in the `PARSEY_MODELS` list (in this case Swedish). To use another, use the `language` query param: (must also match the model name exactly)
 
     $ curl -H "Content-Type:text/plain" --data-binary "Jag heter JesDoIt" http://localhost:7777/?language=Swedish
 
 Returns:
-
+`
 [
   [
     {
@@ -175,3 +175,4 @@ Returns:
     }
   ]
 ]
+`
