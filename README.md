@@ -18,7 +18,7 @@ or detached:
 
 The default model is English. To select models set the `PARSEY_MODELS` environment variable. Select one or more (comma separated) models of the ones available [here](https://github.com/tensorflow/models/blob/master/research/syntaxnet/g3doc/universal.md) (NOTE: must be written exactly as it appears in that list)
 
-    $ docker run -it --rm -p 7777:80 -e PARSEY_MODELS=English,Chinese,Swedish JesDoIt/parsey-universal-server
+    $ docker run -it --rm -p 7777:80 -e PARSEY_MODELS=English,Chinese,Swedish JesDoIt/parsey-server
 
 You can also set the batch size if necessary using the `PARSEY_BATCH_SIZE` environment variable (default 1)
 
