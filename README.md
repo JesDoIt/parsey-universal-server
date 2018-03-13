@@ -1,26 +1,29 @@
 # Parsey Universal Server
 
-A simple Python Flask app to provide Parsey McParseface and its [Cousins](https://github.com/tensorflow/models/blob/master/syntaxnet/universal.md) over HTTP as an API.
+A simple Python Flask app to provide Parsey McParseface and its [Cousins](https://github.com/tensorflow/models/blob/master/research/syntaxnet/g3doc/universal.md) over HTTP as an API.
+
+#### The main purpose of this repo is to use POS tagger of Syntaxnet.
+#### For retrieving a parsing tree, please modify parser.py function parse_sentence(), uncomment the last return.
 
 ### To run:
 
 Run on port 7777:
 
-    $ docker run -it --rm -p 7777:80 andersrye/parsey-universal-server
+    $ docker run -it --rm -p 7777:80 JesDoIt/parsey-universal-server
 
 or detached:
 
-    $ docker run -d -it -p 7777:80 --name parseyserver andersrye/parsey-universal-server    
+    $ docker run -d -it -p 7777:80 --name parseyserver JesDoIt/parsey-universal-server    
 
-The default model is English. To select models set the `PARSEY_MODELS` environment variable. Select one or more (comma separated) models of the ones available [here](https://github.com/tensorflow/models/blob/master/syntaxnet/universal.md) (NOTE: must be written exactly as it appears in that list)
+The default model is English. To select models set the `PARSEY_MODELS` environment variable. Select one or more (comma separated) models of the ones available [here](https://github.com/tensorflow/models/blob/master/research/syntaxnet/g3doc/universal.md) (NOTE: must be written exactly as it appears in that list)
 
-    $ docker run -it --rm -p 7777:80 -e PARSEY_MODELS=Latin,English,Greek andersrye/parsey-universal-server
+    $ docker run -it --rm -p 7777:80 -e PARSEY_MODELS=English,Chinese,Swedish JesDoIt/parsey-universal-server
 
 You can also set the batch size if necessary using the `PARSEY_BATCH_SIZE` environment variable (default 1)
 
 ### To build:
 
-    $ git clone https://github.com/andersrye/parsey-universal-server.git
+    $ git clone https://github.com/JesDoIt/parsey-universal-server.git
     $ cd parsey-universal-server
     $ docker build -t parseyserver .
     $ docker run -it --rm -p 7777:80 parseyserver
@@ -33,124 +36,142 @@ Navigate to http://localhost:7777/demo to view a simple demo.
 
 Post plain text, line separated sentences to it:
 
-    $ curl -H "Content-Type:text/plain" --data-binary "Alea iacta est" http://localhost:7777/
+    $ curl -H "Content-Type:text/plain" -d "Mr. O'Neill thinks that the boys' stories about Chile's capital aren't amusing" http://localhost:7777/?Language=English
 
 Returns a list of lists of sentences and words, in what is essentially the [CoNLL-U](http://universaldependencies.org/format.html) format, just in JSON
 
-    [
-      [
-        {
-          "id": 1,
-          "form": "Alea",
-          "upostag": "NOUN",
-          "xpostag": "n-s---fn-",
-          "feats": {
-            "Case": "Nom",
-            "Gender": "Fem",
-            "fPOS": "NOUN++n-s---fn-",
-            "Number": "Sing"
-          },
-          "head": 2,
-          "deprel": "nsubjpass"
-        },
-        {
-          "id": 2,
-          "form": "iacta",
-          "upostag": "VERB",
-          "xpostag": "v-srppfn-",
-          "feats": {
-            "Case": "Nom",
-            "VerbForm": "Part",
-            "Gender": "Fem",
-            "fPOS": "VERB++v-srppfn-",
-            "Number": "Sing",
-            "Tense": "Past",
-            "Aspect": "Perf",
-            "Voice": "Pass"
-          },
-          "head": 0,
-          "deprel": "ROOT"
-        },
-        {
-          "id": 3,
-          "form": "est",
-          "upostag": "VERB",
-          "xpostag": "v3spia---",
-          "feats": {
-            "VerbForm": "Fin",
-            "fPOS": "VERB++v3spia---",
-            "Number": "Sing",
-            "Person": "3",
-            "Tense": "Pres",
-            "Voice": "Act",
-            "Mood": "Ind"
-          },
-          "head": 2,
-          "deprel": "auxpass"
-        }
-      ]
-    ]
+ [
+  [
+    {
+      "index": 1, 
+      "token": "Mr.", 
+      "label": "NOUN", 
+      "pos": "NN|AN", 
+      "parent": 2, 
+      "relation": "nmod"
+    }, 
+    {
+      "index": 2, 
+      "token": "O'Neill", 
+      "label": "PROPN", 
+      "pos": "PM|NOM", 
+      "parent": 3, 
+      "relation": "nsubjpass"
+    }, 
+    {
+      "index": 3, 
+      "token": "thinks", 
+      "label": "VERB", 
+      "pos": "VB|PRS|SFO", 
+      "parent": 0, 
+      "relation": "ROOT"
+    }, 
+    {
+      "index": 4, 
+      "token": "that", 
+      "label": "ADJ", 
+      "pos": "PC|PRF|NEU|SIN|IND|NOM", 
+      "parent": 3, 
+      "relation": "xcomp"
+    }, 
+    {
+      "index": 5, 
+      "token": "the", 
+      "label": "NOUN", 
+      "pos": "NN|NEU|SIN|IND|NOM", 
+      "parent": 6, 
+      "relation": "nmod"
+    }, 
+    {
+      "index": 6, 
+      "token": "boys'", 
+      "label": "NOUN", 
+      "pos": "NN|AN", 
+      "parent": 7, 
+      "relation": "nsubjpass"
+    }, 
+    {
+      "index": 7, 
+      "token": "stories", 
+      "label": "VERB", 
+      "pos": "VB|PRS|SFO", 
+      "parent": 4, 
+      "relation": "acl:relcl"
+    }, 
+    {
+      "index": 8, 
+      "token": "about", 
+      "label": "NOUN", 
+      "pos": "NN|UTR|SIN|IND|NOM", 
+      "parent": 9, 
+      "relation": "nmod"
+    }, 
+    {
+      "index": 9, 
+      "token": "Chile's", 
+      "label": "PROPN", 
+      "pos": "PM|NOM", 
+      "parent": 7, 
+      "relation": "dobj"
+    }, 
+    {
+      "index": 10, 
+      "token": "capital", 
+      "label": "NOUN", 
+      "pos": "NN|NEU|SIN|IND|NOM", 
+      "parent": 7, 
+      "relation": "nmod"
+    }, 
+    {
+      "index": 11, 
+      "token": "aren't", 
+      "label": "ADV", 
+      "pos": "AB|AN", 
+      "parent": 10, 
+      "relation": "cc"
+    }, 
+    {
+      "index": 12, 
+      "token": "amusing", 
+      "label": "NOUN", 
+      "pos": "NN|UTR|SIN|IND|NOM", 
+      "parent": 10, 
+      "relation": "conj"
+    }
+  ]
+]
 
 The default model is the first one in the `PARSEY_MODELS` list (in this case Latin). To use another, use the `language` query param: (must also match the model name exactly)
 
-    $ curl -H "Content-Type:text/plain" --data-binary "The die is cast" http://localhost:7777/?language=English
+    $ curl -H "Content-Type:text/plain" --data-binary "Jag heter JesDoIt" http://localhost:7777/?language=Swedish
 
 Returns:
 
-    [
-      [
-        {
-          "id": 1,
-          "form": "The",
-          "upostag": "DET",
-          "xpostag": "DT",
-          "feats": {
-            "Definite": "Def",
-            "fPOS": "DET++DT",
-            "PronType": "Art"
-          },
-          "head": 2,
-          "deprel": "det"
-        },
-        {
-          "id": 2,
-          "form": "die",
-          "upostag": "NOUN",
-          "xpostag": "NN",
-          "feats": {
-            "fPOS": "NOUN++NN",
-            "Number": "Sing"
-          },
-          "head": 4,
-          "deprel": "nsubj"
-        },
-        {
-          "id": 3,
-          "form": "is",
-          "upostag": "VERB",
-          "xpostag": "VBZ",
-          "feats": {
-            "Mood": "Ind",
-            "fPOS": "VERB++VBZ",
-            "Number": "Sing",
-            "Person": "3",
-            "Tense": "Pres",
-            "VerbForm": "Fin"
-          },
-          "head": 4,
-          "deprel": "cop"
-        },
-        {
-          "id": 4,
-          "form": "cast",
-          "upostag": "ADJ",
-          "xpostag": "JJ",
-          "feats": {
-            "fPOS": "ADJ++JJ",
-            "Degree": "Pos"
-          },
-          "head": 0,
-          "deprel": "ROOT"
-        }
-      ]
-    ]
+[
+  [
+    {
+      "index": 1, 
+      "token": "Jag", 
+      "label": "PRON", 
+      "pos": "PN|UTR|SIN|DEF|SUB", 
+      "parent": 2, 
+      "relation": "nsubj"
+    }, 
+    {
+      "index": 2, 
+      "token": "heter", 
+      "label": "VERB", 
+      "pos": "VB|PRS|AKT", 
+      "parent": 0, 
+      "relation": "ROOT"
+    }, 
+    {
+      "index": 3, 
+      "token": "JesDoIt", 
+      "label": "PROPN", 
+      "pos": "PM|NOM", 
+      "parent": 2, 
+      "relation": "dobj"
+    }
+  ]
+]
