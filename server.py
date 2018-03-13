@@ -41,5 +41,5 @@ def available_models():
     print("Available models? %s" % MODELS)
     return Response(status=200,response=json.dumps(MODELS),content_type="application/json")
 
- if __name__ == '__main__':
-    app.run(port=port, host="0.0.0.0")
+if __name__ == '__main__':
+  app.run(port=port, host="0.0.0.0")
