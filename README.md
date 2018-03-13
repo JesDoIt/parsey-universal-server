@@ -9,11 +9,12 @@ A simple Python Flask app to provide Parsey McParseface and its [Cousins](https:
 
 Run on port 7777:
 
-    $ docker run -it --rm -p 7777:80 jesdoit/parsey-universal-server
+    $ docker run -it --rm -p 7777:80 jesdoit/parsey-server
+    $ docker run -it --rm -p 7777:80 -e PARSEY_MODELS=Swedish,English jesdoit/parsey-server
 
 or detached:
 
-    $ docker run -d -it -p 7777:80 --name parseyserver jesdoit/parsey-universal-server    
+    $ docker run -d -it -p 7777:80 --name parseyserver jesdoit/parsey-server   
 
 The default model is English. To select models set the `PARSEY_MODELS` environment variable. Select one or more (comma separated) models of the ones available [here](https://github.com/tensorflow/models/blob/master/research/syntaxnet/g3doc/universal.md) (NOTE: must be written exactly as it appears in that list)
 
