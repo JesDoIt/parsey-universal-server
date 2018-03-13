@@ -39,10 +39,10 @@ Post plain text, line separated sentences to it:
     $ curl -H "Content-Type:text/plain" -d "Mr. O'Neill thinks that the boys' stories about Chile's capital aren't amusing" http://localhost:7777/
 
 Returns a list of lists of sentences and words, in what is essentially the [CoNLL-U](http://universaldependencies.org/format.html) format, just in JSON
-`
-[
+
+`[
  [
-  {
+    {
       "index": 1, 
       "token": "Mr.", 
       "label": "NOUN", 
@@ -146,8 +146,8 @@ The default model is the first one in the `PARSEY_MODELS` list (in this case Swe
     $ curl -H "Content-Type:text/plain" --data-binary "Jag heter JesDoIt" http://localhost:7777/?language=Swedish
 
 Returns:
-`
-[
+
+`[
   [
     {
       "index": 1, 
