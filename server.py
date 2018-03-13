@@ -16,13 +16,11 @@ pool = Pool(1, maxtasksperchild=50)
 
 @app.route('/', methods = ['POST', 'GET'])
 def index():
-
   data = request.args.get("q", "")
   if not data:
       data = request.data.decode('utf-8')
   if not data:
-      return Response(status=500, response="error")
-      
+      return Response(status=500, response="error")      
   print("got something: '%s'" % data)
   result = pool.apply(parse_sentence, [data, request.args])
 
